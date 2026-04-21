@@ -1,0 +1,114 @@
+{
+  "Belgium": {
+    "perf_score": 55,
+    "lcp_ms": 6246.567000000001,
+    "tbt_ms": 409.4999999999991,
+    "cls_score": 0,
+    "fcp_ms": 4402.249,
+    "ttfb_ms": 61
+  },
+  "Croatia": {
+    "perf_score": 42,
+    "lcp_ms": 19318.847499999996,
+    "tbt_ms": 1278.1219999999958,
+    "cls_score": 0.101334,
+    "fcp_ms": 2083.1940000000004,
+    "ttfb_ms": 13
+  },
+  "Denmark": {
+    "perf_score": null,
+    "lcp_ms": null,
+    "tbt_ms": null,
+    "cls_score": null,
+    "fcp_ms": null,
+    "ttfb_ms": null
+  },
+  "Estonia": {
+    "perf_score": 20,
+    "lcp_ms": 8323.327000000001,
+    "tbt_ms": 2436.5,
+    "cls_score": 0.245321,
+    "fcp_ms": 3734.827,
+    "ttfb_ms": 43
+  },
+  "Greece": {
+    "perf_score": 36,
+    "lcp_ms": 13083.851500000004,
+    "tbt_ms": 916.5025000000014,
+    "cls_score": 0,
+    "fcp_ms": 8567.849,
+    "ttfb_ms": 186
+  },
+  "Hungary": {
+    "perf_score": 47,
+    "lcp_ms": 18339.48055,
+    "tbt_ms": 423.5,
+    "cls_score": 0.015401,
+    "fcp_ms": 7274.2780999999995,
+    "ttfb_ms": 28
+  },
+  "Italy": {
+    "perf_score": 58,
+    "lcp_ms": 4699.752,
+    "tbt_ms": 340,
+    "cls_score": 0.34522499999999995,
+    "fcp_ms": 1638.252,
+    "ttfb_ms": 41
+  },
+  "Latvia": {
+    "perf_score": 36,
+    "lcp_ms": 34765.76800000005,
+    "tbt_ms": 1447.9999999999964,
+    "cls_score": 0,
+    "fcp_ms": 3874.5049999999997,
+    "ttfb_ms": 52
+  },
+  "Lithuania": {
+    "perf_score": 50,
+    "lcp_ms": 5582.2495,
+    "tbt_ms": 1938.2525000000003,
+    "cls_score": 0.001589,
+    "fcp_ms": 2184.1815,
+    "ttfb_ms": 34
+  },
+  "Luxembourg": {
+    "perf_score": 51,
+    "lcp_ms": 22089.067250000004,
+    "tbt_ms": 269,
+    "cls_score": 0,
+    "fcp_ms": 7192.995500000001,
+    "ttfb_ms": 168
+  },
+  "Malta": {
+    "perf_score": 51,
+    "lcp_ms": 5341.562,
+    "tbt_ms": 1810.247999999999,
+    "cls_score": 0.003311,
+    "fcp_ms": 2233.1940000000004,
+    "ttfb_ms": 24
+  },
+  "Netherlands": {
+    "perf_score": 78,
+    "lcp_ms": 5865.352999999999,
+    "tbt_ms": 55,
+    "cls_score": 0.046603,
+    "fcp_ms": 1404.377,
+    "ttfb_ms": 26
+  },
+  "Poland": {
+    "perf_score": 67,
+    "lcp_ms": 6693.2935000000025,
+    "tbt_ms": 45.5,
+    "cls_score": 0,
+    "fcp_ms": 3560.7254999999996,
+    "ttfb_ms": 31
+  },
+  "Slovenia": {
+    "perf_score": 90,
+    "lcp_ms": 3604.6369999999997,
+    "tbt_ms": 8,
+    "cls_score": 0,
+    "fcp_ms": 1054.637,
+    "ttfb_ms": 10
+  }
+}

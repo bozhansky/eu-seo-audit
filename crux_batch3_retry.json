@@ -1,0 +1,51 @@
+{
+  "Luxembourg": {
+    "perf_score": 72,
+    "fcp_p75": 1368,
+    "inp_p75": 37,
+    "lcp_p75": 2428,
+    "cls_p75": null
+  },
+  "Austria": {
+    "perf_score": 98,
+    "fcp_p75": 873,
+    "inp_p75": 42,
+    "lcp_p75": 972,
+    "cls_p75": null
+  },
+  "Belgium": {
+    "perf_score": 93,
+    "fcp_p75": 888,
+    "inp_p75": 102,
+    "lcp_p75": 1079,
+    "cls_p75": null
+  },
+  "Bulgaria": {
+    "perf_score": 79,
+    "fcp_p75": 1271,
+    "inp_p75": null,
+    "lcp_p75": 1709,
+    "cls_p75": null
+  },
+  "Cyprus": {
+    "perf_score": null,
+    "fcp_p75": null,
+    "inp_p75": null,
+    "lcp_p75": null,
+    "cls_p75": null
+  },
+  "Romania": {
+    "perf_score": null,
+    "fcp_p75": null,
+    "inp_p75": null,
+    "lcp_p75": null,
+    "cls_p75": null
+  },
+  "Spain": {
+    "perf_score": 74,
+    "fcp_p75": 2177,
+    "inp_p75": 52,
+    "lcp_p75": 2719,
+    "cls_p75": null
+  }
+}

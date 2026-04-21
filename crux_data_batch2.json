@@ -1,0 +1,58 @@
+{
+  "Malta": {
+    "perf_score": 42,
+    "fcp_p75": 2156,
+    "inp_p75": 35,
+    "lcp_p75": 3151,
+    "cls_p75": null
+  },
+  "Netherlands": {
+    "perf_score": 96,
+    "fcp_p75": 470,
+    "inp_p75": 45,
+    "lcp_p75": 1328,
+    "cls_p75": null
+  },
+  "Poland": {
+    "perf_score": 85,
+    "fcp_p75": 1165,
+    "inp_p75": 51,
+    "lcp_p75": 1363,
+    "cls_p75": null
+  },
+  "Portugal": {
+    "perf_score": 22,
+    "fcp_p75": 909,
+    "inp_p75": 49,
+    "lcp_p75": 2354,
+    "cls_p75": null
+  },
+  "Romania": {
+    "perf_score": null,
+    "fcp_p75": null,
+    "inp_p75": null,
+    "lcp_p75": null,
+    "cls_p75": null
+  },
+  "Slovakia": {
+    "perf_score": 73,
+    "fcp_p75": 1271,
+    "inp_p75": 11,
+    "lcp_p75": 1375,
+    "cls_p75": null
+  },
+  "Slovenia": {
+    "perf_score": 100,
+    "fcp_p75": 444,
+    "inp_p75": 18,
+    "lcp_p75": 586,
+    "cls_p75": null
+  },
+  "Sweden": {
+    "perf_score": 92,
+    "fcp_p75": 493,
+    "inp_p75": 57,
+    "lcp_p75": 1422,
+    "cls_p75": null
+  }
+}

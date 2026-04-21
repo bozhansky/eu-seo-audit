@@ -1,0 +1,86 @@
+{
+  "Czech Republic": {
+    "perf_score": 72,
+    "fcp_p75": 1527,
+    "inp_p75": 48,
+    "lcp_p75": 1569,
+    "cls_p75": null
+  },
+  "Denmark": {
+    "perf_score": 94,
+    "fcp_p75": 1244,
+    "inp_p75": 41,
+    "lcp_p75": 1372,
+    "cls_p75": null
+  },
+  "Estonia": {
+    "perf_score": 34,
+    "fcp_p75": 2018,
+    "inp_p75": 57,
+    "lcp_p75": 2637,
+    "cls_p75": null
+  },
+  "Finland": {
+    "perf_score": 73,
+    "fcp_p75": 1197,
+    "inp_p75": 39,
+    "lcp_p75": 1256,
+    "cls_p75": null
+  },
+  "France": {
+    "perf_score": 81,
+    "fcp_p75": 917,
+    "inp_p75": 61,
+    "lcp_p75": 1191,
+    "cls_p75": null
+  },
+  "Germany": {
+    "perf_score": 66,
+    "fcp_p75": 779,
+    "inp_p75": 55,
+    "lcp_p75": 872,
+    "cls_p75": null
+  },
+  "Greece": {
+    "perf_score": 56,
+    "fcp_p75": 965,
+    "inp_p75": 84,
+    "lcp_p75": 1607,
+    "cls_p75": null
+  },
+  "Hungary": {
+    "perf_score": 63,
+    "fcp_p75": 1066,
+    "inp_p75": 91,
+    "lcp_p75": 1664,
+    "cls_p75": null
+  },
+  "Ireland": {
+    "perf_score": 89,
+    "fcp_p75": 922,
+    "inp_p75": 39,
+    "lcp_p75": 1025,
+    "cls_p75": null
+  },
+  "Italy": {
+    "perf_score": 93,
+    "fcp_p75": 817,
+    "inp_p75": 44,
+    "lcp_p75": 872,
+    "cls_p75": null
+  },
+  "Latvia": {
+    "perf_score": 56,
+    "fcp_p75": 979,
+    "inp_p75": 91,
+    "lcp_p75": 1127,
+    "cls_p75": null
+  },
+  "Lithuania": {
+    "perf_score": 93,
+    "fcp_p75": 642,
+    "inp_p75": 31,
+    "lcp_p75": 775,
+    "cls_p75": null
+  }
+}
