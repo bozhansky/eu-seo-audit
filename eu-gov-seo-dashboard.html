@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU Government SEO Audit — 27 Member States</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src=""></script>
+<style>
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --blue: #58a6ff;
+  --purple: #bc8cff;
+  --orange: #e3b341;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.header p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.badge {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.badge span { color: var(--green); font-weight: 600; }
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.card .value {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.card .value.green { color: var(--green); }
+.card .value.yellow { color: var(--yellow); }
+.card .value.red { color: var(--red); }
+
+.card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+.filter-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+th {
+  background: #1c2128;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+th:hover { color: var(--text); }
+
+th .sort-arrow { margin-left: 4px; opacity: 0.4; }
+th.sort-asc .sort-arrow { opacity: 1; }
+th.sort-desc .sort-arrow { opacity: 1; transform: rotate(180deg); }
+
+td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #1c2128; }
+
+tr.sub-row td {
+  background: #1c2128;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.country-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flag {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.country-name { font-weight: 500; }
+
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.score-badge.excellent { background: rgba(63,185,80,0.15); color: var(--green); }
+.score-badge.good { background: rgba(88,166,255,0.15); color: var(--blue); }
+.score-badge.poor { background: rgba(210,153,34,0.15); color: var(--yellow); }
+.score-badge.critical { background: rgba(248,81,73,0.15); color: var(--red); }
+.score-badge.unknown { background: rgba(139,148,158,0.1); color: var(--muted); }
+
+.score-badge.large {
+  min-width: 56px;
+  font-size: 14px;
+  padding: 4px 10px;
+}
+
+.metric-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-track {
+  flex: 1;
+  height: 6px;
+  background: #21262d;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.bar-fill.green { background: var(--green); }
+.bar-fill.yellow { background: var(--yellow); }
+.bar-fill.red { background: var(--red); }
+
+.metric-value {
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 50px;
+  text-align: right;
+}
+
+.metric-value.good { color: var(--green); }
+.metric-value.poor { color: var(--yellow); }
+.metric-value.critical { color: var(--red); }
+
+.severity-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.severity-dot.green { background: var(--green); }
+.severity-dot.yellow { background: var(--yellow); }
+.severity-dot.red { background: var(--red); }
+.severity-dot.muted { background: var(--muted); }
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  background: #21262d;
+  color: var(--muted);
+  margin: 1px;
+}
+
+.tag.tag-green { background: rgba(63,185,80,0.15); color: var(--green); }
+.tag.tag-red { background: rgba(248,81,73,0.15); color: var(--red); }
+.tag.tag-blue { background: rgba(88,166,255,0.15); color: var(--blue); }
+.tag.tag-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
+
+.tier-label {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.tier-A { background: rgba(63,185,80,0.15); color: var(--green); }
+.tier-B { background: rgba(88,166,255,0.15); color: var(--blue); }
+.tier-C { background: rgba(210,153,34,0.15); color: var(--yellow); }
+.tier-D { background: rgba(248,81,73,0.15); color: var(--red); }
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.chart-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.chart-wrap canvas { max-height: 280px; }
+
+.expand-row {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.expand-row:hover { color: var(--blue); }
+
+.expanded-detail {
+  background: #1c2128;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: none;
+}
+
+.expanded-detail.show { display: block; }
+
+.expanded-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.expanded-metric {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.expanded-metric .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
+.expanded-metric .value { font-size: 20px; font-weight: 700; }
+.expanded-metric .desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.why-bots {
+  background: linear-gradient(135deg, #161b22 0%, #1c2128 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--purple);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+}
+
+.why-bots h3 { color: var(--purple); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.why-bots p { font-size: 14px; line-height: 1.6; color: var(--text); }
+.why-bots strong { color: var(--purple); }
+
+.notice {
+  background: rgba(88,166,255,0.1);
+  border: 1px solid rgba(88,166,255,0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--blue);
+  margin-bottom: 16px;
+}
+
+.hidden { display: none; }
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.page-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-btn:hover { border-color: var(--blue); color: var(--blue); }
+.page-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+.tooltip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted var(--muted);
+}
+
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1c2128;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+
+.tooltip:hover::after { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>EU Government SEO Audit — 27 Member States</h1>
+    <p>Creeper SEO Audit | Speed Performance Index | Real-User Field Data vs Lab Data</p>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <div class="badge">Crawled: <span>24/27</span> countries</div>
+    <div class="badge">CrUX: <span>26/27</span> countries</div>
+  </div>
+</div>
+
+<!-- WHY THIS MATTERS -->
+<div class="why-bots">
+  <h3>Bots don't crawl. Real users do.</h3>
+  <p>This report combines <strong>lab data</strong> (Lighthouse/PSI — simulated, consistent conditions) with <strong>field data</strong> (CrUX — real Chrome users, real networks, real devices). Lab scores tell you <em>what's possible</em>. Field data tells you <em>what's real</em>. The gap between the two is where your actual users suffer — and where your SEO risk lives.</p>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="summary-cards">
+  <div class="card">
+    <div class="label">Avg Health Score</div>
+    <div class="value green" id="avg-health">—</div>
+    <div class="sub" id="avg-health-sub">out of 100</div>
+  </div>
+  <div class="card">
+    <div class="label">Avg CrUX PSI (Field)</div>
+    <div class="value" id="avg-crux">—</div>
+    <div class="sub">real-user performance</div>
+  </div>
+  <div class="card">
+    <div class="label">Avg Speed Index</div>
+    <div class="value yellow" id="avg-si">—</div>
+    <div class="sub">composite score (0–100)</div>
+  </div>
+  <div class="card">
+    <div class="label">At Risk (Field PSI &lt;60)</div>
+    <div class="value red" id="at-risk-count">—</div>
+    <div class="sub">countries below good threshold</div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">All 27</button>
+  <button class="filter-btn" data-filter="tier-a">Tier A (PSI 85+)</button>
+  <button class="filter-btn" data-filter="tier-b">Tier B (PSI 60–84)</button>
+  <button class="filter-btn" data-filter="tier-c">Tier C (PSI 40–59)</button>
+  <button class="filter-btn" data-filter="tier-d">Tier D (PSI &lt;40)</button>
+  <button class="filter-btn" data-filter="high-health">Health 85+</button>
+  <button class="filter-btn" data-filter="low-health">Health &lt;80</button>
+</div>
+
+<!-- CHARTS -->
+<div class="chart-grid">
+  <div class="chart-wrap">
+    <div class="section-title">Health Score vs Speed Index</div>
+    <canvas id="scatterChart"></canvas>
+  </div>
+  <div class="chart-wrap">
+    <div class="section-title">CrUX Performance by Country</div>
+    <canvas id="cruxChart"></canvas>
+  </div>
+  <div class="chart-wrap">
+    <div class="section-title">Health Score Ranking</div>
+    <canvas id="healthChart"></canvas>
+  </div>
+  <div class="chart-wrap">
+    <div class="section-title">Field vs Lab Score Gap (PSI)</div>
+    <canvas id="gapChart"></canvas>
+  </div>
+</div>
+
+<!-- MAIN TABLE -->
+<div class="section-title">Full Audit Results — 27 EU Member States</div>
+<div class="notice">Missing data: Croatia, Lithuania, Malta have no MySQL crawl data. Cyprus, Romania have no CrUX data. Lighthouse lab data available for 14 countries from pre-crawled results.</div>
+
+<table id="mainTable">
+  <thead>
+    <tr>
+      <th data-col="country" data-sort="asc">Country <span class="sort-arrow">▲</span></th>
+      <th data-col="speed_tier" data-sort="none">Speed Tier <span class="sort-arrow">▲</span></th>
+      <th data-col="health_score" data-sort="desc">Health Score <span class="sort-arrow">▲</span></th>
+      <th data-col="crux_psi" data-sort="desc">CrUX PSI <span class="sort-arrow">▲</span></th>
+      <th data-col="lh_psi" data-sort="desc">Lighthouse PSI <span class="sort-arrow">▲</span></th>
+      <th data-col="speed_index" data-sort="desc">Speed Index <span class="sort-arrow">▲</span></th>
+      <th data-col="lcp_ms" data-sort="desc">LCP (ms) <span class="sort-arrow">▲</span></th>
+      <th data-col="fcp_ms" data-sort="desc">FCP (ms) <span class="sort-arrow">▲</span></th>
+      <th data-col="inp_ms" data-sort="desc">INP (ms) <span class="sort-arrow">▲</span></th>
+      <th data-col="critical_issues" data-sort="desc">Critical Issues <span class="sort-arrow">▲</span></th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+
+const EU_COUNTRIES = {
+  Austria:         { flag: '🇦🇹', iso: 'AT' },
+  Belgium:         { flag: '🇧🇪', iso: 'BE' },
+  Bulgaria:        { flag: '🇧🇬', iso: 'BG' },
+  Croatia:         { flag: '🇭🇷', iso: 'HR' },
+  Cyprus:          { flag: '🇨🇾', iso: 'CY' },
+  'Czech Republic':{ flag: '🇨🇿', iso: 'CZ' },
+  Denmark:         { flag: '🇩🇰', iso: 'DK' },
+  Estonia:         { flag: '🇪🇪', iso: 'EE' },
+  Finland:         { flag: '🇫🇮', iso: 'FI' },
+  France:          { flag: '🇫🇷', iso: 'FR' },
+  Germany:         { flag: '🇩🇪', iso: 'DE' },
+  Greece:          { flag: '🇬🇷', iso: 'GR' },
+  Hungary:         { flag: '🇭🇺', iso: 'HU' },
+  Ireland:         { flag: '🇮🇪', iso: 'IE' },
+  Italy:           { flag: '🇮🇹', iso: 'IT' },
+  Latvia:          { flag: '🇱🇻', iso: 'LV' },
+  Lithuania:       { flag: '🇱🇹', iso: 'LT' },
+  Luxembourg:       { flag: '🇱🇺', iso: 'LU' },
+  Malta:           { flag: '🇲🇹', iso: 'MT' },
+  Netherlands:     { flag: '🇳🇱', iso: 'NL' },
+  Poland:          { flag: '🇵🇱', iso: 'PL' },
+  Portugal:        { flag: '🇵🇹', iso: 'PT' },
+  Romania:         { flag: '🇷🇴', iso: 'RO' },
+  Slovakia:        { flag: '🇸🇰', iso: 'SK' },
+  Slovenia:        { flag: '🇸🇮', iso: 'SI' },
+  Spain:           { flag: '🇪🇸', iso: 'ES' },
+  Sweden:          { flag: '🇸🇪', iso: 'SE' }
+};
+
+// Raw data from MySQL + CrUX API + Lighthouse results
+const RAW = {
+  Austria:        { health_score: 83, crux_psi: 98, lh_psi: null,  lcp_ms: 972,  fcp_ms: 873,  inp_ms: null,  cls_ms: null,  pages_crawled: 3710,  critical_issues: 6  },
+  Belgium:        { health_score: 81, crux_psi: 93, lh_psi: 55,   lcp_ms: 1079, fcp_ms: 888,  inp_ms: null,  cls_ms: null,  pages_crawled: 2450,  critical_issues: 7  },
+  Bulgaria:       { health_score: 79, crux_psi: 79, lh_psi: null,  lcp_ms: 1709, fcp_ms: 1271, inp_ms: null,  cls_ms: null,  pages_crawled: 2360,  critical_issues: 8  },
+  Croatia:        { health_score: 92, crux_psi: null,lh_psi: 42,   lcp_ms: null, fcp_ms: null,  inp_ms: null,  cls_ms: null,  pages_crawled: null,   critical_issues: null },
+  Cyprus:         { health_score: 75, crux_psi: null, lh_psi: null, lcp_ms: null, fcp_ms: null,  inp_ms: null,  cls_ms: null,  pages_crawled: 3330,  critical_issues: 12 },
+  'Czech Republic':{health_score: 80, crux_psi: 72, lh_psi: null,  lcp_ms: 1569, fcp_ms: 1527, inp_ms: null,  cls_ms: null,  pages_crawled: 6540,  critical_issues: 10 },
+  Denmark:        { health_score: 80, crux_psi: 94, lh_psi: null,  lcp_ms: 1372, fcp_ms: 1244, inp_ms: null,  cls_ms: null,  pages_crawled: 2540,  critical_issues: 5  },
+  Estonia:        { health_score: 90, crux_psi: 34, lh_psi: 20,   lcp_ms: 2637, fcp_ms: 2018, inp_ms: null,  cls_ms: null,  pages_crawled: 2340,  critical_issues: 4  },
+  Finland:        { health_score: 82, crux_psi: 73, lh_psi: null,  lcp_ms: 1256, fcp_ms: 1197, inp_ms: null,  cls_ms: null,  pages_crawled: 2970,  critical_issues: 6  },
+  France:         { health_score: 96, crux_psi: 81, lh_psi: null,  lcp_ms: 1191, fcp_ms: 917,  inp_ms: null,  cls_ms: null,  pages_crawled: 2100,  critical_issues: 2  },
+  Germany:        { health_score: 82, crux_psi: 66, lh_psi: null,  lcp_ms: 872,  fcp_ms: 779,  inp_ms: null,  cls_ms: null,  pages_crawled: 2220,  critical_issues: 6  },
+  Greece:         { health_score: null, crux_psi: 56, lh_psi: 36,  lcp_ms: 1607, fcp_ms: 965,  inp_ms: null,  cls_ms: null,  pages_crawled: 9520,  critical_issues: null },
+  Hungary:        { health_score: 79, crux_psi: 63, lh_psi: 47,   lcp_ms: 1664, fcp_ms: 1066, inp_ms: null,  cls_ms: null,  pages_crawled: 2440,  critical_issues: 9  },
+  Ireland:        { health_score: 86, crux_psi: 89, lh_psi: null,  lcp_ms: 1025, fcp_ms: 922,  inp_ms: null,  cls_ms: null,  pages_crawled: 2990,  critical_issues: 5  },
+  Italy:          { health_score: 75, crux_psi: 93, lh_psi: 58,   lcp_ms: 872,  fcp_ms: 817,  inp_ms: null,  cls_ms: null,  pages_crawled: 2900,  critical_issues: 7  },
+  Latvia:         { health_score: 86, crux_psi: 56, lh_psi: 36,   lcp_ms: 1127, fcp_ms: 979,  inp_ms: null,  cls_ms: null,  pages_crawled: 2970,  critical_issues: 5  },
+  Lithuania:      { health_score: null, crux_psi: 93, lh_psi: 50,  lcp_ms: 775,  fcp_ms: 642,  inp_ms: null,  cls_ms: null,  pages_crawled: null,   critical_issues: null },
+  Luxembourg:     { health_score: 87, crux_psi: 72, lh_psi: 51,   lcp_ms: 2428, fcp_ms: 1368, inp_ms: null,  cls_ms: null,  pages_crawled: 2190,  critical_issues: 4  },
+  Malta:          { health_score: null, crux_psi: 42, lh_psi: 51,  lcp_ms: 3151, fcp_ms: 2156, inp_ms: 35,   cls_ms: null,  pages_crawled: null,   critical_issues: null },
+  Netherlands:    { health_score: 93, crux_psi: 96, lh_psi: 78,   lcp_ms: 1328, fcp_ms: 470,  inp_ms: 45,   cls_ms: null,  pages_crawled: 2440,  critical_issues: 3  },
+  Poland:         { health_score: 85, crux_psi: 85, lh_psi: 67,   lcp_ms: 1363, fcp_ms: 1165, inp_ms: 51,   cls_ms: null,  pages_crawled: 2790,  critical_issues: 5  },
+  Portugal:       { health_score: 90, crux_psi: 22, lh_psi: null,  lcp_ms: 2354, fcp_ms: 909,  inp_ms: 49,   cls_ms: null,  pages_crawled: 4030,  critical_issues: 4  },
+  Romania:        { health_score: 75, crux_psi: null, lh_psi: null, lcp_ms: null, fcp_ms: null,  inp_ms: null,  cls_ms: null,  pages_crawled: 43460, critical_issues: 14 },
+  Slovakia:       { health_score: 81, crux_psi: 73, lh_psi: null,  lcp_ms: 1375, fcp_ms: 1271, inp_ms: 11,   cls_ms: null,  pages_crawled: 2520,  critical_issues: 7  },
+  Slovenia:       { health_score: 81, crux_psi: 100,lh_psi: 90,   lcp_ms: 586,  fcp_ms: 444,  inp_ms: 18,   cls_ms: null,  pages_crawled: 3940,  critical_issues: 7  },
+  Spain:          { health_score: 85, crux_psi: 74, lh_psi: null,  lcp_ms: 2719, fcp_ms: 2177, inp_ms: 52,   cls_ms: null,  pages_crawled: 2380,  critical_issues: 6  },
+  Sweden:         { health_score: 88, crux_psi: 92, lh_psi: null,  lcp_ms: 1422, fcp_ms: 493,  inp_ms: 57,   cls_ms: null,  pages_crawled: 2420,  critical_issues: 4  }
+};
+
+// ─────────────────────────────────────────────
+// SPEED INDEX ALGORITHM
+// Based on LCP, FCP, INP — normalized to 0–100
+// Thresholds from Google's CrUX + web.dev guidelines
+// ─────────────────────────────────────────────
+
+function calcSpeedIndex(crux) {
+  const lcp  = crux.lcp_ms;   // ms
+  const fcp  = crux.fcp_ms;   // ms
+  const inp  = crux.inp_ms;   // ms (Interaction to Next Paint)
+
+  if (!lcp && !fcp) return null;
+
+  // LCP score: 0–100, good ≤2500ms, needs improvement ≤4000ms
+  function lcpScore(v) {
+    if (!v) return null;
+    if (v <= 1000) return 100;
+    if (v <= 1500) return 90;
+    if (v <= 2000) return 80;
+    if (v <= 2500) return 70;
+    if (v <= 3000) return 55;
+    if (v <= 4000) return 40;
+    return 20;
+  }
+
+  // FCP score: 0–100, good ≤1800ms
+  function fcpScore(v) {
+    if (!v) return null;
+    if (v <= 800)  return 100;
+    if (v <= 1000) return 95;
+    if (v <= 1500) return 85;
+    if (v <= 1800) return 75;
+    if (v <= 2500) return 60;
+    if (v <= 3500) return 40;
+    return 20;
+  }
+
+  // INP score: 0–100, good ≤200ms
+  function inpScore(v) {
+    if (!v) return null;
+    if (v <= 100)  return 100;
+    if (v <= 200)  return 90;
+    if (v <= 300)  return 75;
+    if (v <= 500)  return 55;
+    if (v <= 800)  return 35;
+    return 20;
+  }
+
+  const scores = [lcpScore(lcp), fcpScore(fcp)].filter(Boolean);
+  if (inp) scores.push(inpScore(inp));
+
+  if (scores.length === 0) return null;
+
+  // Weighted: LCP 50%, FCP 30%, INP 20%
+  let si = 0, weightSum = 0;
+  const lcpS = lcpScore(lcp), fcpS = fcpScore(fcp), inpS = inpScore(inp);
+  if (lcpS !== null) { si += lcpS * 0.50; weightSum += 0.50; }
+  if (fcpS !== null) { si += fcpS * 0.30; weightSum += 0.30; }
+  if (inpS !== null) { si += inpS * 0.20; weightSum += 0.20; }
+
+  return Math.round(si / weightSum);
+}
+
+function speedTier(psi) {
+  if (psi === null) return '—';
+  if (psi >= 85) return 'A';
+  if (psi >= 60) return 'B';
+  if (psi >= 40) return 'C';
+  return 'D';
+}
+
+function speedLabel(psi) {
+  if (psi === null) return 'No Data';
+  if (psi >= 85) return 'Excellent';
+  if (psi >= 60) return 'Good';
+  if (psi >= 40) return 'Needs Work';
+  return 'Critical';
+}
+
+function healthBadgeClass(score) {
+  if (score === null) return 'unknown';
+  if (score >= 85) return 'excellent';
+  if (score >= 75) return 'good';
+  if (score >= 65) return 'poor';
+  return 'critical';
+}
+
+function cruxBadgeClass(psi) {
+  if (psi === null) return 'unknown';
+  if (psi >= 85) return 'excellent';
+  if (psi >= 60) return 'good';
+  if (psi >= 40) return 'poor';
+  return 'critical';
+}
+
+function tierBadgeClass(tier) {
+  if (tier === 'A') return 'excellent';
+  if (tier === 'B') return 'good';
+  if (tier === 'C') return 'poor';
+  if (tier === 'D') return 'critical';
+  return 'unknown';
+}
+
+function metricClass(ms, thresholds) {
+  if (ms === null) return '';
+  const [good, poor] = thresholds;
+  if (ms <= good) return 'good';
+  if (ms <= poor) return 'poor';
+  return 'critical';
+}
+
+function metricBarClass(ms, thresholds) {
+  if (ms === null) return 'yellow';
+  const [good, poor] = thresholds;
+  if (ms <= good) return 'green';
+  if (ms <= poor) return 'yellow';
+  return 'red';
+}
+
+function formatMs(ms) {
+  if (ms === null) return '—';
+  return ms.toLocaleString();
+}
+
+// ─────────────────────────────────────────────
+// ENRICH DATA
+// ─────────────────────────────────────────────
+
+const countries = Object.keys(EU_COUNTRIES).sort();
+const enriched = countries.map(c => {
+  const raw = RAW[c] || {};
+  const hs  = raw.health_score;
+  const psi = raw.crux_psi;
+  const si  = calcSpeedIndex(raw);
+  const tier = speedTier(psi);
+
+  return {
+    country: c,
+    flag: EU_COUNTRIES[c].flag,
+    health_score: hs,
+    crux_psi: psi,
+    lh_psi: raw.lh_psi,
+    lcp_ms: raw.lcp_ms,
+    fcp_ms: raw.fcp_ms,
+    inp_ms: raw.inp_ms,
+    cls_ms: raw.cls_ms,
+    pages_crawled: raw.pages_crawled,
+    critical_issues: raw.critical_issues,
+    speed_index: si,
+    speed_tier: tier,
+    speed_label: speedLabel(psi)
+  };
+});
+
+// ─────────────────────────────────────────────
+// SUMMARY CARDS
+// ─────────────────────────────────────────────
+
+const withHealth = enriched.filter(d => d.health_score !== null);
+const avgHealth = Math.round(withHealth.reduce((s, d) => s + d.health_score, 0) / withHealth.length);
+
+const withCrux = enriched.filter(d => d.crux_psi !== null);
+const avgCrux = Math.round(withCrux.reduce((s, d) => s + d.crux_psi, 0) / withCrux.length);
+
+const withSI = enriched.filter(d => d.speed_index !== null);
+const avgSI = Math.round(withSI.reduce((s, d) => s + d.speed_index, 0) / withSI.length);
+
+const atRisk = withCrux.filter(d => d.crux_psi < 60).length;
+
+document.getElementById('avg-health').textContent = avgHealth;
+document.getElementById('avg-crux').textContent = avgCrux;
+document.getElementById('avg-crux').className = `value ${avgCrux >= 85 ? 'green' : avgCrux >= 60 ? 'yellow' : 'red'}`;
+document.getElementById('avg-si').textContent = avgSI;
+document.getElementById('at-risk-count').textContent = atRisk;
+
+// ─────────────────────────────────────────────
+// CHARTS
+// ─────────────────────────────────────────────
+
+const ctxCrux   = document.getElementById('cruxChart').getContext('2d');
+const ctxHealth = document.getElementById('healthChart').getContext('2d');
+const ctxGap    = document.getElementById('gapChart').getContext('2d');
+const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+
+// CrUX Bar Chart
+const sortedCrux = [...enriched].sort((a, b) => (b.crux_psi || 0) - (a.crux_psi || 0));
+new Chart(ctxCrux, {
+  type: 'bar',
+  data: {
+    labels: sortedCrux.map(d => d.flag + ' ' + d.country),
+    datasets: [{
+      label: 'CrUX PSI (Field)',
+      data: sortedCrux.map(d => d.crux_psi),
+      backgroundColor: sortedCrux.map(d => {
+        const v = d.crux_psi;
+        if (v === null) return '#30363d';
+        if (v >= 85) return 'rgba(63,185,80,0.8)';
+        if (v >= 60) return 'rgba(88,166,255,0.8)';
+        if (v >= 40) return 'rgba(210,153,34,0.8)';
+        return 'rgba(248,81,73,0.8)';
+      }),
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => `${ctx.parsed.y} PSI — ${speedLabel(ctx.parsed.y)}`
+        }
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { display: false } },
+      y: {
+        min: 0, max: 100,
+        ticks: { color: '#8b949e', stepSize: 20 },
+        grid: { color: '#21262d' },
+        annotation: {
+          annotations: {
+            line60: { type: 'line', yMin: 60, yMax: 60, borderColor: '#d29922', borderWidth: 1, borderDash: [4,4] },
+            line85: { type: 'line', yMin: 85, yMax: 85, borderColor: '#3fb950', borderWidth: 1, borderDash: [4,4] }
+          }
+        }
+      }
+    }
+  }
+});
+
+// Health Score Horizontal Bar
+const sortedHealth = [...enriched].sort((a, b) => (b.health_score || 0) - (a.health_score || 0));
+new Chart(ctxHealth, {
+  type: 'bar',
+  data: {
+    labels: sortedHealth.map(d => d.flag + ' ' + d.country),
+    datasets: [{
+      label: 'Health Score',
+      data: sortedHealth.map(d => d.health_score),
+      backgroundColor: sortedHealth.map(d => {
+        const v = d.health_score;
+        if (v === null) return '#30363d';
+        if (v >= 85) return 'rgba(63,185,80,0.8)';
+        if (v >= 75) return 'rgba(88,166,255,0.8)';
+        if (v >= 65) return 'rgba(210,153,34,0.8)';
+        return 'rgba(248,81,73,0.8)';
+      }),
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { min: 0, max: 100, ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+      y: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// Field vs Lab Gap Chart
+const gapData = enriched.filter(d => d.crux_psi !== null && d.lh_psi !== null)
+  .map(d => ({
+    country: d.flag + ' ' + d.country,
+    field: d.crux_psi,
+    lab: d.lh_psi,
+    gap: d.crux_psi - d.lh_psi
+  }))
+  .sort((a, b) => a.gap - b.gap);
+
+new Chart(ctxGap, {
+  type: 'bar',
+  data: {
+    labels: gapData.map(d => d.country),
+    datasets: [
+      {
+        label: 'Field PSI (CrUX)',
+        data: gapData.map(d => d.field),
+        backgroundColor: 'rgba(88,166,255,0.8)',
+        borderRadius: 4,
+        borderSkipped: false
+      },
+      {
+        label: 'Lab PSI (Lighthouse)',
+        data: gapData.map(d => d.lab),
+        backgroundColor: 'rgba(188,140,255,0.8)',
+        borderRadius: 4,
+        borderSkipped: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#8b949e' } } },
+    scales: {
+      x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { display: false } },
+      y: { min: 0, max: 100, ticks: { color: '#8b949e' }, grid: { color: '#21262d' } }
+    }
+  }
+});
+
+// Health vs Speed Scatter
+const scatterData = enriched.filter(d => d.health_score !== null && d.crux_psi !== null);
+new Chart(ctxScatter, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Country',
+      data: scatterData.map(d => ({ x: d.health_score, y: d.crux_psi, label: d.country, tier: d.speed_tier })),
+      backgroundColor: scatterData.map(d => {
+        if (d.crux_psi >= 85) return 'rgba(63,185,80,0.8)';
+        if (d.crux_psi >= 60) return 'rgba(88,166,255,0.8)';
+        if (d.crux_psi >= 40) return 'rgba(210,153,34,0.8)';
+        return 'rgba(248,81,73,0.8)';
+      }),
+      pointRadius: 8,
+      pointHoverRadius: 12
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => `${ctx.raw.label}: Health ${ctx.raw.x}, CrUX PSI ${ctx.raw.y}`
+        }
+      }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Health Score', color: '#8b949e' }, min: 50, max: 100, grid: { color: '#21262d' }, ticks: { color: '#8b949e' } },
+      y: { title: { display: true, text: 'CrUX PSI (Field)', color: '#8b949e' }, min: 0, max: 100, grid: { color: '#21262d' }, ticks: { color: '#8b949e' } }
+    }
+  }
+});
+
+// ─────────────────────────────────────────────
+// TABLE RENDERING
+// ─────────────────────────────────────────────
+
+let currentFilter = 'all';
+let sortCol = 'country';
+let sortDir = 'asc';
+
+function filterData(data, filter) {
+  if (filter === 'all') return data;
+  if (filter === 'tier-a') return data.filter(d => d.speed_tier === 'A');
+  if (filter === 'tier-b') return data.filter(d => d.speed_tier === 'B');
+  if (filter === 'tier-c') return data.filter(d => d.speed_tier === 'C');
+  if (filter === 'tier-d') return data.filter(d => d.speed_tier === 'D');
+  if (filter === 'high-health') return data.filter(d => d.health_score >= 85);
+  if (filter === 'low-health') return data.filter(d => d.health_score && d.health_score < 80);
+  return data;
+}
+
+function sortData(data, col, dir) {
+  const sign = dir === 'asc' ? 1 : -1;
+  return [...data].sort((a, b) => {
+    const av = a[col], bv = b[col];
+    if (av === null) return 1;
+    if (bv === null) return -1;
+    if (typeof av === 'string') return av.localeCompare(bv) * sign;
+    return (av - bv) * sign;
+  });
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+
+  const filtered = filterData(data, currentFilter);
+  const sorted = sortData(filtered, sortCol, sortDir);
+
+  sorted.forEach(d => {
+    const issues = d.critical_issues;
+    const issueTag = issues === null ? '—' :
+      issues >= 10 ? `<span class="tag tag-red">${issues} issues</span>` :
+      issues >= 5  ? `<span class="tag tag-yellow">${issues} issues</span>` :
+      issues >= 1  ? `<span class="tag tag-green">${issues} issues</span>` : '—';
+
+    const pages = d.pages_crawled ? d.pages_crawled.toLocaleString() : '—';
+
+    const lcpBar = d.lcp_ms !== null ? `
+      <div class="metric-bar">
+        <div class="bar-track">
+          <div class="bar-fill ${metricBarClass(d.lcp_ms, [2500, 4000])}" style="width:${Math.min(100, (d.lcp_ms/4000)*100)}%"></div>
+        </div>
+        <span class="metric-value ${metricClass(d.lcp_ms, [2500, 4000])}">${formatMs(d.lcp_ms)}</span>
+      </div>` : '—';
+
+    const fcpBar = d.fcp_ms !== null ? `
+      <div class="metric-bar">
+        <div class="bar-track">
+          <div class="bar-fill ${metricBarClass(d.fcp_ms, [1800, 3000])}" style="width:${Math.min(100, (d.fcp_ms/3500)*100)}%"></div>
+        </div>
+        <span class="metric-value ${metricClass(d.fcp_ms, [1800, 3000])}">${formatMs(d.fcp_ms)}</span>
+      </div>` : '—';
+
+    const inpBar = d.inp_ms !== null ? `
+      <div class="metric-bar">
+        <div class="bar-track">
+          <div class="bar-fill ${metricBarClass(d.inp_ms, [200, 500])}" style="width:${Math.min(100, (d.inp_ms/800)*100)}%"></div>
+        </div>
+        <span class="metric-value ${metricClass(d.inp_ms, [200, 500])}">${formatMs(d.inp_ms)}</span>
+      </div>` : '—';
+
+    const siClass = d.speed_index !== null ? (d.speed_index >= 70 ? 'excellent' : d.speed_index >= 50 ? 'good' : d.speed_index >= 30 ? 'poor' : 'critical') : 'unknown';
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>
+        <div class="country-cell">
+          <span class="flag">${d.flag}</span>
+          <span class="country-name">${d.country}</span>
+        </div>
+      </td>
+      <td><span class="tier-label tier-${d.speed_tier.toLowerCase()}">${d.speed_tier === '—' ? '—' : 'Tier ' + d.speed_tier}</span></td>
+      <td>
+        <span class="score-badge large ${healthBadgeClass(d.health_score)}">${d.health_score !== null ? d.health_score : '—'}</span>
+      </td>
+      <td>
+        <span class="score-badge large ${cruxBadgeClass(d.crux_psi)}">${d.crux_psi !== null ? d.crux_psi : '—'}</span>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${speedLabel(d.crux_psi)}</div>
+      </td>
+      <td>
+        <span class="score-badge ${d.lh_psi !== null ? cruxBadgeClass(d.lh_psi) : 'unknown'}">${d.lh_psi !== null ? d.lh_psi : '—'}</span>
+        ${d.crux_psi !== null && d.lh_psi !== null ? `<div style="font-size:11px;margin-top:2px;color:${d.crux_psi > d.lh_psi ? 'var(--green)' : 'var(--yellow)'}">${d.crux_psi >= d.lh_psi ? '▲ field better' : '▼ lab better'}</div>` : ''}
+      </td>
+      <td>
+        <span class="score-badge large ${siClass}">${d.speed_index !== null ? d.speed_index : '—'}</span>
+      </td>
+      <td>${lcpBar}</td>
+      <td>${fcpBar}</td>
+      <td>${inpBar}</td>
+      <td>${issueTag}<div style="font-size:11px;color:var(--muted);margin-top:2px">${pages} pages</div></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Sort click handlers
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) {
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      sortCol = col;
+      sortDir = th.dataset.sort === 'none' ? 'desc' : th.dataset.sort;
+    }
+    document.querySelectorAll('th').forEach(t => { t.className = ''; });
+    th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+    renderTable(enriched);
+  });
+});
+
+// Filter handlers
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentFilter = btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable(enriched);
+  });
+});
+
+// Initial render
+renderTable(enriched);
+</script>
+</body>
+</html>
